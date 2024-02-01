@@ -31,12 +31,12 @@ class BasicReelset:
         self._range = data["range"]
         self._section_index = data["section"]
         self._section_name = data["sectionName"]
-        self._betsIndices = [int(num) for num in data["betsIndices"].split()]
-        self._isMainCycle = data["isMainCycle"]
-        self._isFreeSpin = data["isFreeSpin"]
-        self._isRespin = data["isRespin"]
-        self._isStartScreen = data["isStartScreen"]
-        self._isFortuneBet = data["isFortuneBet"]
+        self._betsIndices = [int(num) for num in data.get("betsIndices", '10').split()]
+        self._isMainCycle = data.get("isMainCycle", False)
+        self._isFreeSpin = data.get("isFreeSpin", False)
+        self._isRespin = data.get("isRespin", False)
+        self._isStartScreen = data.get("isStartScreen", False)
+        self._isFortuneBet = data.get("isFortuneBet", False)
 
     def ReadReelset_Xml(self, data: ET.Element, reelset_section_index: int = -1):
         self._reelset_section_index = reelset_section_index

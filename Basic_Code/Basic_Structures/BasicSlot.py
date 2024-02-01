@@ -150,7 +150,7 @@ class BasicSlot:
         self._game_name_full = data["Game Name Full"]
         self._game_version = data["Game Version"]
         self._line_wins = data["Line Wins"]
-        self._feature_list = data['Feature List']
+        self._feature_list = data.get('Feature List', '')
         self._game_simulationID = data["Simulation Id"]
         self._simulation_type = data["Simulation Type"]
         self._board_height = data["Board Size"]["Height"]
