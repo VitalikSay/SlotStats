@@ -32,7 +32,7 @@ class NBNBook(BasicBook):
     def WriteExel(self):
         self._InitBook()
 
-        self._WritePARSheet(self._game_name_short, '86', simulation_tags=['FS'])
+        self._WritePARSheet(self._game_name_short, 'usual_93', simulation_tags=['no_gamble'])
 
         self._CloseBook()
 

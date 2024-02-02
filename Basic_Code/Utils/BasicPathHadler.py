@@ -12,7 +12,7 @@ class Singleton(type):
 
 class BasicPathHandler(metaclass=Singleton):
     def __init__(self):
-        self._project_name_lowercase = "slothandler"
+        self._project_name_lowercase = "slotstats"
         self._games_result_data_folder = "Game_Result_Data"
         self._games_source_data_folder = "Game_Source_Data"
         self._project_folder = ""

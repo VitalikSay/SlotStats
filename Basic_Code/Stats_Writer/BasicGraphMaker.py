@@ -225,7 +225,7 @@ class BasicGraphMaker:
         ax.grid(False)
 
         sns.set(style="whitegrid")
-        graph = sns.barplot(spin_win_df, x='rtp', y=spin_win_df.index, palette=colors)
+        graph = sns.barplot(spin_win_df, x='rtp', y=spin_win_df.index, palette=colors, hue=spin_win_df.index, legend=False)
         graph.set(xticklabels=[], yticklabels=[])
         graph.tick_params(bottom=False, left=False)
         graph.set(xlabel=None)
@@ -266,7 +266,8 @@ class BasicGraphMaker:
             my_data[count_col_name].loc[0] = 0
 
         sns.set(style="whitegrid")
-        graph = sns.barplot(my_data, x=my_data.index, y=count_col_name, palette=colors, orient='v', width=bar_width)
+        graph = sns.barplot(my_data, x=my_data.index, y=count_col_name, palette=colors[:len(my_data[count_col_name])],
+                            orient='v', width=bar_width, hue=count_col_name, legend=False)
         graph.set(xticklabels=[], yticklabels=[])
         graph.tick_params(bottom=False, left=False)
         graph.set(xlabel=None)
@@ -338,7 +339,7 @@ if __name__ == "__main__":
     scales = Colors.get_scales_for_numbers(numbers, Colors.hexes[2][5], Colors.hexes[3][5])
     data = pd.DataFrame(data=numbers, columns=['count'])
     colors = sns.color_palette(scales)
-    sns.barplot(data, x=data.index, y='count', palette=colors)
+    sns.barplot(data, x=data.index, y='count', palette=colors, hue='count', legend=False)
     plt.show()
 
 

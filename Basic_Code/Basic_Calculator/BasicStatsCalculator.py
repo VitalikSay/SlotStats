@@ -156,7 +156,7 @@ class BasicStatsCalculator:
         return np.array(list(spin_win.items()), dtype="uint64")
 
     def _CalcOneConfidentInterval(self, confidence: float, mean: float, scale: float, num_games: int):
-        return list(norm.interval(confidence=confidence, loc=mean, scale=scale / np.sqrt(num_games)))
+        return list(norm.interval(alpha=confidence, loc=mean, scale=scale / np.sqrt(num_games)))
 
     def _CalcConfidentIntervals(self):
         self._CalcIntervalsForConfidents()
