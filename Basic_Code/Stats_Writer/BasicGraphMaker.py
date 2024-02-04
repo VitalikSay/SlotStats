@@ -262,11 +262,14 @@ class BasicGraphMaker:
 
         my_data = pd.DataFrame(columns=[count_col_name], index=data.index)
         my_data[count_col_name] = data[count_col_name]
+
+        palette_flg = False
         if not include_zero_case and 0 in my_data.index:
+            palette_flg = True
             my_data[count_col_name].loc[0] = 0
 
         sns.set(style="whitegrid")
-        graph = sns.barplot(my_data, x=my_data.index, y=count_col_name, palette=colors[:len(my_data[count_col_name])],
+        graph = sns.barplot(my_data, x=my_data.index, y=count_col_name, palette=colors[:(len(my_data[count_col_name]) if not palette_flg else len(my_data[count_col_name])-1)],
                             orient='v', width=bar_width, hue=count_col_name, legend=False)
         graph.set(xticklabels=[], yticklabels=[])
         graph.tick_params(bottom=False, left=False)

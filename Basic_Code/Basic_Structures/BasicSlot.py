@@ -26,6 +26,7 @@ class BasicSlot:
 
         self._feature_free_spins_count = -1
         self._feature_respin_strategy = ""
+        self._feature_respin_avg_mults = dict()
         self._usual_game_feature_avg_mult = -1.0
         self._feature_avg_mult = -1.0
 
@@ -55,6 +56,20 @@ class BasicSlot:
 
     def MakePaytableObj(self):
         return BasicPayTable()
+
+    def _ReadFeatureRespinSettings(self, data):
+        respin_data = data['Feature Re-Spin Settings']
+        self._feature_respin_strategy = respin_data['strategy']
+
+        for key, val in respin_data.items():
+            if key == "strategy":
+                continue
+            simulation_type = key
+            mult_by_count = dict()
+            for case in val:
+                mult_by_count[case['fs_count']] = case['avg_mult']
+            self._feature_respin_avg_mults[simulation_type] = mult_by_count
+
 
     def GetBet(self, MultByMult=True):
         if MultByMult:
@@ -140,6 +155,12 @@ class BasicSlot:
     def GetFeatureAvgMult(self):
         return self._feature_avg_mult
 
+    def GetFeatureRespinStrategy(self):
+        return self._feature_respin_strategy
+
+    def GetFeatureRespinMults(self):
+        return self._feature_respin_avg_mults
+
     @timer
     def ReadSlot_Json(self, data: dict):
         self._base_bet = data["Current Bet"]
@@ -155,9 +176,9 @@ class BasicSlot:
         self._simulation_type = data["Simulation Type"]
         self._board_height = data["Board Size"]["Height"]
         self._board_width = data["Board Size"]["Width"]
-        self._feature_list = data["Feature List"]
 
         self._feature_free_spins_count = data["Feature Free Spin Count"]
+        self._ReadFeatureRespinSettings(data)
         self._feature_respin_strategy = data["Feature Re-Spin Strategy"]
         self._usual_game_feature_avg_mult = data["Usual Avg Feature Mult"]
         self._feature_avg_mult = data["Feature Avg Feature Mult"]
@@ -174,9 +195,9 @@ class BasicSlot:
 
 
 if __name__ == "__main__":
-    file = open(r"C:\Users\VitalijSaiganov\PycharmProjects\XLSX_Writer\Data\Json Stats\SSH\86\SSH_usual_86_no_gamble_stats.json")
+    file = open(r"D:\Work\SlotStats\Game_Source_Data\NBN\usual_93\json_NBN_usual_93_Usual_bet_10.json")
     data = json.load(file)
     r = BasicSlot()
     r.ReadSlot_Json(data)
-    print(r.GetBoardWidth())
+    print(r.GetFeatureRespinMults())
 

@@ -35,7 +35,7 @@ class BasicStatistics:
     @timer
     def ReadStatistics(self, data: dict):
         self._total_spin_count = data["Total Spin Count"]
-        self._winlines_counter = np.array(data["Winlines counter"])
+        self._winlines_counter = np.array(data.get("Winlines counter", []))
         self._ReadSpinWin(data["Spin Win"])
         self._ReadSpinWinBySection(data["Section Spin Win"])  # feature spin win
         self._ReadAllWinByBaseReelsets(data["All Wins By Base Reelsets"])

@@ -27,38 +27,39 @@ class NBNPARSheet(BasicPARSheet):
     def _WriteFreeSpinStats(self):
         self.WriteHeader("Free Spins Statistics", include_in_content=True, print_counter=True)
 
-        self._WriteFreeSpinsOneRegularWin()
-        self._WriteFreeSpinsOneSpecialWin()
+        #self._WriteFreeSpinsOneRegularWin()
+        #self._WriteFreeSpinsOneSpecialWin()
+        self.WriteFeatureRespinSettings(0)
         self._WriteFreeScattersCountBase()
         self._WriteFreeScattersCountBaseRespin()
 
 
 
-    def _WriteFreeSpinsOneRegularWin(self):
-        self.WriteInnerHeader("Regular Free Spin and Re-Spin Win Distribution", include_in_content=True,
-                              print_counter=True)
-        self.WriteBasicSpinWin(self._calcualtion.GetOneFreeSpinRegularWin_DF(),
-                               graph_name='one_regular_free_win',
-                               color_index=1,
-                               print_avg_win_no_zero=True,
-                               print_avg_win_with_zero=True,
-                               print_win_1_in_feature=True,
-                               print_win_1_in_base=True,
-                               print_win_freq_base_col=True,
-                               print_max_range_win_col=True)
-
-    def _WriteFreeSpinsOneSpecialWin(self):
-        self.WriteInnerHeader("Special Free Spin and Re-Spin Win Distribution", include_in_content=True,
-                              print_counter=True)
-        self.WriteBasicSpinWin(self._calcualtion.GetOneFreeSpinSpecialWin_DF(),
-                               graph_name='one_special_free_win',
-                               color_index=2,
-                               print_avg_win_no_zero=True,
-                               print_avg_win_with_zero=True,
-                               print_win_1_in_feature=True,
-                               print_win_1_in_base=True,
-                               print_win_freq_base_col=True,
-                               print_max_range_win_col=True)
+    # def _WriteFreeSpinsOneRegularWin(self):
+    #     self.WriteInnerHeader("Regular Free Spin and Re-Spin Win Distribution", include_in_content=True,
+    #                           print_counter=True)
+    #     self.WriteBasicSpinWin(self._calcualtion.GetOneFreeSpinRegularWin_DF(),
+    #                            graph_name='one_regular_free_win',
+    #                            color_index=1,
+    #                            print_avg_win_no_zero=True,
+    #                            print_avg_win_with_zero=True,
+    #                            print_win_1_in_feature=True,
+    #                            print_win_1_in_base=True,
+    #                            print_win_freq_base_col=True,
+    #                            print_max_range_win_col=True)
+    #
+    # def _WriteFreeSpinsOneSpecialWin(self):
+    #     self.WriteInnerHeader("Special Free Spin and Re-Spin Win Distribution", include_in_content=True,
+    #                           print_counter=True)
+    #     self.WriteBasicSpinWin(self._calcualtion.GetOneFreeSpinSpecialWin_DF(),
+    #                            graph_name='one_special_free_win',
+    #                            color_index=2,
+    #                            print_avg_win_no_zero=True,
+    #                            print_avg_win_with_zero=True,
+    #                            print_win_1_in_feature=True,
+    #                            print_win_1_in_base=True,
+    #                            print_win_freq_base_col=True,
+    #                            print_max_range_win_col=True)
 
     def _WriteFreeScattersCountBase(self):
         self.WriteInnerHeader("Free Spins Scatters Count Base", include_in_content=True, print_counter=True)
@@ -83,6 +84,7 @@ class NBNPARSheet(BasicPARSheet):
                                 'percent_small_merged': 'Merged Ranges',
                                 'graph_name': 'free_scatter_base_count'
                                 }
+
         self.WriteBasicVariant(main_df=scatter_count_main_df,
                                merged_df=scatter_count_merged_df,
                                variant_df_col_name='count',
@@ -195,89 +197,89 @@ class NBNPARSheet(BasicPARSheet):
                                print_percent_big_col=True,
                                print_percent_small_col=False)
 
-        self.WriteInnerHeader('Number of Wilds Distribution Free Game', include_in_content=True, print_counter=True)
-
-        wild_count_free_main_df, wild_count_free_merged_df = self._calcualtion.GetWildCountFree_DFs()
-        wild_count_free_labels = {'avg_variant_with_zero': 'Average number of Wilds:',
-                                  'avg_variant_no_zero': 'Average number of Wild:',
-                                  'any_variant_1_in_base_with_zero': 'Pulls to hit any Wilds:',
-                                  'any_variant_1_in_base_no_zero': 'Pulls to hit any Wilds:',
-                                  'any_variant_1_in_feature_no_zero': 'Pulls to hit any Wilds:',
-                                  'plus_variants_1_in_base': 'Pulls to hit {:d}+ Wilds:',
-                                  'plus_variants_1_in_feature': 'Pulls to hit {:d}+ Wilds:',
-                                  'picture_col': 'Number of Wilds in View Distribution',
-                                  'variant_col': 'Wilds Count',
-                                  'pulls_to_hit_big': 'Pulls to Hit',
-                                  'pulls_to_hit_big_merged': 'Merged Ranges',
-                                  'pulls_to_hit_small': 'Pulls to Hit',
-                                  'pulls_to_hit_small_merged': 'Merged Ranges',
-                                  'percent_big': 'Percent',
-                                  'percent_big_merged': 'Merged Ranges',
-                                  'percent_small': 'Percent',
-                                  'percent_small_merged': 'Merged Ranges',
-                                  'graph_name': 'wild_count_free'
-                                  }
-        self.WriteBasicVariant(main_df=wild_count_free_main_df,
-                               merged_df=wild_count_free_merged_df,
-                               variant_df_col_name='count',
-                               txt_labels=wild_count_free_labels,
-                               variant_is_mult=False,
-                               color_index=1,
-                               n=(3, 5, 7, 10, 15),
-                               include_zero_in_total=False,
-                               print_n_plus_1_in_base=False,
-                               print_n_plus_1_in_feature=True,
-                               print_avg_variant_with_zero=False,
-                               print_avg_variant_no_zero=True,
-                               print_any_variant_1_in_base_no_zero=False,
-                               print_any_variant_1_in_base_with_zero=False,
-                               print_any_variant_1_in_feature_no_zero=True,
-                               print_pulls_to_hit_big_col=True,
-                               print_pulls_to_hit_small_col=False,
-                               print_percent_big_col=True,
-                               print_percent_small_col=False)
-
-        self.WriteInnerHeader('Number of Wilds Distribution Special Free Spin', include_in_content=True, print_counter=True)
-
-        wild_count_special_main_df, wild_count_special_merged_df = self._calcualtion.GetWildCountSpecial_DFs()
-        wild_count_special_labels = {'avg_variant_with_zero': 'Average number of Wilds:',
-                                     'avg_variant_no_zero': 'Average number of Wild:',
-                                     'any_variant_1_in_base_with_zero': 'Pulls to hit any Wilds:',
-                                     'any_variant_1_in_base_no_zero': 'Pulls to hit any Wilds:',
-                                     'any_variant_1_in_feature_no_zero': 'Pulls to hit any Wilds:',
-                                     'plus_variants_1_in_base': 'Pulls to hit {:d}+ Wilds:',
-                                     'plus_variants_1_in_feature': 'Pulls to hit {:d}+ Wilds:',
-                                     'picture_col': 'Number of Wilds in View Distribution',
-                                     'variant_col': 'Wilds Count',
-                                     'pulls_to_hit_big': 'Pulls to Hit',
-                                     'pulls_to_hit_big_merged': 'Merged Ranges',
-                                     'pulls_to_hit_small': 'Pulls to Hit',
-                                     'pulls_to_hit_small_merged': 'Merged Ranges',
-                                     'percent_big': 'Percent',
-                                     'percent_big_merged': 'Merged Ranges',
-                                     'percent_small': 'Percent',
-                                     'percent_small_merged': 'Merged Ranges',
-                                     'graph_name': 'wild_count_special'
-                                     }
-        self.WriteBasicVariant(main_df=wild_count_special_main_df,
-                               merged_df=wild_count_special_merged_df,
-                               variant_df_col_name='count',
-                               txt_labels=wild_count_special_labels,
-                               variant_is_mult=False,
-                               color_index=1,
-                               n=(7,),
-                               include_zero_in_total=False,
-                               print_n_plus_1_in_base=False,
-                               print_n_plus_1_in_feature=True,
-                               print_avg_variant_with_zero=False,
-                               print_avg_variant_no_zero=True,
-                               print_any_variant_1_in_base_no_zero=False,
-                               print_any_variant_1_in_base_with_zero=False,
-                               print_any_variant_1_in_feature_no_zero=True,
-                               print_pulls_to_hit_big_col=True,
-                               print_pulls_to_hit_small_col=False,
-                               print_percent_big_col=True,
-                               print_percent_small_col=False)
+        # self.WriteInnerHeader('Number of Wilds Distribution Free Game', include_in_content=True, print_counter=True)
+        #
+        # wild_count_free_main_df, wild_count_free_merged_df = self._calcualtion.GetWildCountFree_DFs()
+        # wild_count_free_labels = {'avg_variant_with_zero': 'Average number of Wilds:',
+        #                           'avg_variant_no_zero': 'Average number of Wild:',
+        #                           'any_variant_1_in_base_with_zero': 'Pulls to hit any Wilds:',
+        #                           'any_variant_1_in_base_no_zero': 'Pulls to hit any Wilds:',
+        #                           'any_variant_1_in_feature_no_zero': 'Pulls to hit any Wilds:',
+        #                           'plus_variants_1_in_base': 'Pulls to hit {:d}+ Wilds:',
+        #                           'plus_variants_1_in_feature': 'Pulls to hit {:d}+ Wilds:',
+        #                           'picture_col': 'Number of Wilds in View Distribution',
+        #                           'variant_col': 'Wilds Count',
+        #                           'pulls_to_hit_big': 'Pulls to Hit',
+        #                           'pulls_to_hit_big_merged': 'Merged Ranges',
+        #                           'pulls_to_hit_small': 'Pulls to Hit',
+        #                           'pulls_to_hit_small_merged': 'Merged Ranges',
+        #                           'percent_big': 'Percent',
+        #                           'percent_big_merged': 'Merged Ranges',
+        #                           'percent_small': 'Percent',
+        #                           'percent_small_merged': 'Merged Ranges',
+        #                           'graph_name': 'wild_count_free'
+        #                           }
+        # self.WriteBasicVariant(main_df=wild_count_free_main_df,
+        #                        merged_df=wild_count_free_merged_df,
+        #                        variant_df_col_name='count',
+        #                        txt_labels=wild_count_free_labels,
+        #                        variant_is_mult=False,
+        #                        color_index=1,
+        #                        n=(3, 5, 7, 10, 15),
+        #                        include_zero_in_total=False,
+        #                        print_n_plus_1_in_base=False,
+        #                        print_n_plus_1_in_feature=True,
+        #                        print_avg_variant_with_zero=False,
+        #                        print_avg_variant_no_zero=True,
+        #                        print_any_variant_1_in_base_no_zero=False,
+        #                        print_any_variant_1_in_base_with_zero=False,
+        #                        print_any_variant_1_in_feature_no_zero=True,
+        #                        print_pulls_to_hit_big_col=True,
+        #                        print_pulls_to_hit_small_col=False,
+        #                        print_percent_big_col=True,
+        #                        print_percent_small_col=False)
+        #
+        # self.WriteInnerHeader('Number of Wilds Distribution Special Free Spin', include_in_content=True, print_counter=True)
+        #
+        # wild_count_special_main_df, wild_count_special_merged_df = self._calcualtion.GetWildCountSpecial_DFs()
+        # wild_count_special_labels = {'avg_variant_with_zero': 'Average number of Wilds:',
+        #                              'avg_variant_no_zero': 'Average number of Wild:',
+        #                              'any_variant_1_in_base_with_zero': 'Pulls to hit any Wilds:',
+        #                              'any_variant_1_in_base_no_zero': 'Pulls to hit any Wilds:',
+        #                              'any_variant_1_in_feature_no_zero': 'Pulls to hit any Wilds:',
+        #                              'plus_variants_1_in_base': 'Pulls to hit {:d}+ Wilds:',
+        #                              'plus_variants_1_in_feature': 'Pulls to hit {:d}+ Wilds:',
+        #                              'picture_col': 'Number of Wilds in View Distribution',
+        #                              'variant_col': 'Wilds Count',
+        #                              'pulls_to_hit_big': 'Pulls to Hit',
+        #                              'pulls_to_hit_big_merged': 'Merged Ranges',
+        #                              'pulls_to_hit_small': 'Pulls to Hit',
+        #                              'pulls_to_hit_small_merged': 'Merged Ranges',
+        #                              'percent_big': 'Percent',
+        #                              'percent_big_merged': 'Merged Ranges',
+        #                              'percent_small': 'Percent',
+        #                              'percent_small_merged': 'Merged Ranges',
+        #                              'graph_name': 'wild_count_special'
+        #                              }
+        # self.WriteBasicVariant(main_df=wild_count_special_main_df,
+        #                        merged_df=wild_count_special_merged_df,
+        #                        variant_df_col_name='count',
+        #                        txt_labels=wild_count_special_labels,
+        #                        variant_is_mult=False,
+        #                        color_index=1,
+        #                        n=(7,),
+        #                        include_zero_in_total=False,
+        #                        print_n_plus_1_in_base=False,
+        #                        print_n_plus_1_in_feature=True,
+        #                        print_avg_variant_with_zero=False,
+        #                        print_avg_variant_no_zero=True,
+        #                        print_any_variant_1_in_base_no_zero=False,
+        #                        print_any_variant_1_in_base_with_zero=False,
+        #                        print_any_variant_1_in_feature_no_zero=True,
+        #                        print_pulls_to_hit_big_col=True,
+        #                        print_pulls_to_hit_small_col=False,
+        #                        print_percent_big_col=True,
+        #                        print_percent_small_col=False)
 
 
     def _WriteWildPositionsDistribution(self):
@@ -297,39 +299,39 @@ class NBNPARSheet(BasicPARSheet):
                                          bar_plot_col_colors=str_col_colors,
                                          bar_plot_row_colors=str_row_colors)
 
-        self.WriteInnerHeader('Wilds Positions Free Game', include_in_content=True, print_counter=True)
-
-        str_row_colors = Colors.get_vector_of_scales(Colors.hexes[3][4], Colors.hexes[3][4],
-                                                     self._slot.GetBoardHeight())
-        str_col_colors = Colors.get_vector_of_scales(Colors.hexes[1][5], Colors.hexes[1][8],
-                                                     self._slot.GetBoardWidth())
-        self.WriteBasicBoardDistribution(self._calcualtion.GetWildPositionCountFree_DFs()[0],
-                                         row_count=self._slot.GetBoardHeight(),
-                                         col_count=self._slot.GetBoardWidth(),
-                                         graph_name='wild_positions_free',
-                                         col_graph_color_index=1,
-                                         row_graph_color_index=1,
-                                         cells_scale_start=Colors.hexes[3][5],
-                                         cells_scale_end=Colors.hexes[1][5],
-                                         bar_plot_col_colors=str_col_colors,
-                                         bar_plot_row_colors=str_row_colors)
-
-        self.WriteInnerHeader('Wilds Positions Special Free Spin', include_in_content=True, print_counter=True)
-
-        str_row_colors = Colors.get_vector_of_scales(Colors.hexes[3][4], Colors.hexes[3][4],
-                                                     self._slot.GetBoardHeight())
-        str_col_colors = Colors.get_vector_of_scales(Colors.hexes[1][5], Colors.hexes[1][8],
-                                                     self._slot.GetBoardWidth())
-        self.WriteBasicBoardDistribution(self._calcualtion.GetWildPositionCountSpecial_DFs()[0],
-                                         row_count=self._slot.GetBoardHeight(),
-                                         col_count=self._slot.GetBoardWidth(),
-                                         graph_name='wild_positions_special',
-                                         col_graph_color_index=1,
-                                         row_graph_color_index=1,
-                                         cells_scale_start=Colors.hexes[3][5],
-                                         cells_scale_end=Colors.hexes[1][5],
-                                         bar_plot_col_colors=str_col_colors,
-                                         bar_plot_row_colors=str_row_colors)
+        # self.WriteInnerHeader('Wilds Positions Free Game', include_in_content=True, print_counter=True)
+        #
+        # str_row_colors = Colors.get_vector_of_scales(Colors.hexes[3][4], Colors.hexes[3][4],
+        #                                              self._slot.GetBoardHeight())
+        # str_col_colors = Colors.get_vector_of_scales(Colors.hexes[1][5], Colors.hexes[1][8],
+        #                                              self._slot.GetBoardWidth())
+        # self.WriteBasicBoardDistribution(self._calcualtion.GetWildPositionCountFree_DFs()[0],
+        #                                  row_count=self._slot.GetBoardHeight(),
+        #                                  col_count=self._slot.GetBoardWidth(),
+        #                                  graph_name='wild_positions_free',
+        #                                  col_graph_color_index=1,
+        #                                  row_graph_color_index=1,
+        #                                  cells_scale_start=Colors.hexes[3][5],
+        #                                  cells_scale_end=Colors.hexes[1][5],
+        #                                  bar_plot_col_colors=str_col_colors,
+        #                                  bar_plot_row_colors=str_row_colors)
+        #
+        # self.WriteInnerHeader('Wilds Positions Special Free Spin', include_in_content=True, print_counter=True)
+        #
+        # str_row_colors = Colors.get_vector_of_scales(Colors.hexes[3][4], Colors.hexes[3][4],
+        #                                              self._slot.GetBoardHeight())
+        # str_col_colors = Colors.get_vector_of_scales(Colors.hexes[1][5], Colors.hexes[1][8],
+        #                                              self._slot.GetBoardWidth())
+        # self.WriteBasicBoardDistribution(self._calcualtion.GetWildPositionCountSpecial_DFs()[0],
+        #                                  row_count=self._slot.GetBoardHeight(),
+        #                                  col_count=self._slot.GetBoardWidth(),
+        #                                  graph_name='wild_positions_special',
+        #                                  col_graph_color_index=1,
+        #                                  row_graph_color_index=1,
+        #                                  cells_scale_start=Colors.hexes[3][5],
+        #                                  cells_scale_end=Colors.hexes[1][5],
+        #                                  bar_plot_col_colors=str_col_colors,
+        #                                  bar_plot_row_colors=str_row_colors)
 
     def _WriteSLStats(self):
         self.WriteHeader("Spectacular Link Statistics", include_in_content=True, print_counter=True)
@@ -417,7 +419,7 @@ class NBNPARSheet(BasicPARSheet):
         self.WriteSmallHeader('SL Upgrades Frequencies')
         self._WriteSLUpgradesFreq()
         self.WriteSmallHeader('SL Pots Frequencies')
-        self._WriteSLPotFreq()
+        #self._WriteSLPotFreq()
 
     def _WriteSLUpgradesFreq(self):
         up_name_width = 2

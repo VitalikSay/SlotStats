@@ -119,29 +119,14 @@ class SLStatistics(BasicStatistics):
         self._sl_scatter_counter = super()._ReadBasicVector(sl_data['CF Scatter Counter'],
                                                             index_name='number_of_scatters',
                                                             val_name='counter')
-        self._one_scat_mult = super()._ReadBasicMap(sl_data['CF One scatter mult'],
-                                                    key_name='mult',
-                                                    val_name='counter')
-        self._two_scat_mult = super()._ReadBasicMap(sl_data['CF Two scatters mult'],
-                                                    key_name='mult',
-                                                    val_name='counter')
-        self._three_scat_mult = super()._ReadBasicMap(sl_data['CF Three scatter mult'],
-                                                      key_name='mult',
-                                                      val_name='counter')
-
-        self._scatter_counter_by_reels = super()._ReadBasicVector(sl_data['CF Scatters by reels'],
-                                                                  index_name='reel_index',
-                                                                  val_name='counter')
 
         self._sl_respin_counter = super()._ReadBasicMap(sl_data['CF Respin counter'],
                                                         key_name='number_of_spins',
                                                         val_name='counter')
-        self._sl_symbols_in_last_board_counter = self._ReadBasicMapSL(sl_data['CF Symbol in last board counter'],
-                                                                      key_name='symbol_id',
-                                                                      val_name='counter')
-        self._sl_scatter_type_counter = super()._ReadBasicMap(sl_data['CF Scatter Type Counter'],
-                                                              key_name='symbol_id',
-                                                              val_name='counter')
+        # Эта статистика больше не пишется в json, но по ней раньше писалась табличка по частоте выпадения потсов
+        # self._sl_symbols_in_last_board_counter = self._ReadBasicMapSL(sl_data['CF Symbol in last board counter'],
+        #                                                               key_name='symbol_id',
+        #                                                               val_name='counter')
         self._sl_filled_cells_counter = super()._ReadBasicMap(sl_data['CF filled cells counter'],
                                                               key_name='number_of_cells',
                                                               val_name='counter')
@@ -404,26 +389,11 @@ class SLStatistics(BasicStatistics):
     def GetSLScatterCounter(self):
         return self._sl_scatter_counter
 
-    def GetSLOneScatterMult(self):
-        return self._one_scat_mult
-
-    def GetSLTwoScattersMult(self):
-        return self._two_scat_mult
-
-    def GetSLThreeScattersMult(self):
-        return self._three_scat_mult
-
-    def GetSLScattersByReelsCounter(self):
-        return self._scatter_counter_by_reels
-
     def GetSLRespinCounter(self):
         return self._sl_respin_counter
 
     def GetSymbolsInLastBoardCounter(self):
         return self._sl_symbols_in_last_board_counter
-
-    def GetSLScattersTypeCounter(self):
-        return self._sl_scatter_type_counter
 
     def GetSLFilledCellsCounter(self):
         return self._sl_filled_cells_counter
@@ -439,9 +409,6 @@ class SLStatistics(BasicStatistics):
                 key = int(key)
             res[key] = value[val_name]
         return res
-
-    def GetPotsFrequenciesDF(self):
-        return self._pots_frequencies_df
 
     def GetScatterWin_DF(self):
         return self._scatter_win_df

@@ -37,6 +37,8 @@ class BasicPARSheet:
         self._max_win_in_cents = calculation.GetMaxWinInCents()
         self._max_win_count = calculation.GetMaxWinCount()
         self._simulation_id = slot.GetSimulationId()
+        self._feature_respin_strategy = slot.GetFeatureRespinStrategy()
+        self._feature_respin_mults = slot.GetFeatureRespinMults()
 
         self._winlines = slot.GetWinlines()
         self._paytable = slot.GetPaytable()
@@ -2964,6 +2966,61 @@ class BasicPARSheet:
         self._sheet.write_rich_string(self._current_row, start_col+info_width,
                                       *val_txt_segments,
                                       bg_format_val)
+        self._current_row += 1
+
+    def WriteFeatureRespinSettings(self, color_index: int = 0):
+        self.WriteInnerHeader("Feature Re-Spin Settings", include_in_content=True, print_counter=True)
+        start_col = 1
+        info_table_info_width = 5
+        info_table_val_width = 2
+        info_table_start_col = self.GetCentreStartCol(12, info_table_val_width + info_table_info_width,
+                                                      default_start_col=start_col)
+
+        # WRITE INFO TABLE
+        info_format = lambda row_counter: self._variant_formats[
+            'info_table_even_' + str(color_index)] if info_rows_counter % 2 == 0 else \
+            self._variant_formats['info_table_odd_' + str(color_index)]
+        info_rows_counter = 0
+
+        def printInfoRow(format, txt_label, little_txt, val_prefix, txt_val, val_postfix):
+            self._sheet.set_row_pixels(self._current_row, 45)
+            self._sheet.merge_range(self._current_row, info_table_start_col,
+                                    self._current_row, info_table_start_col + info_table_info_width - 1,
+                                    "", format)
+            self._sheet.write_rich_string(self._current_row, info_table_start_col,
+                                          self._text_formats['text_big_bold'],
+                                          txt_label + '\n',
+                                          self._text_formats['text_smallest'], little_txt,
+                                          format)
+            self._sheet.merge_range(self._current_row, info_table_start_col + info_table_info_width,
+                                    self._current_row,
+                                    info_table_start_col + info_table_info_width + info_table_val_width - 1,
+                                    "", format)
+            self._sheet.write_rich_string(self._current_row, info_table_start_col + info_table_info_width,
+                                          self._text_formats['text_smallest'], val_prefix + ' ',
+                                          self._text_formats['text_big'], txt_val,
+                                          self._text_formats['text_smallest'], ' ' + val_postfix,
+                                          format)
+            self._current_row += 1
+
+        printInfoRow(info_format(info_rows_counter),
+                     'Strategy',
+                     ' ',
+                     ' ',
+                     self._feature_respin_strategy,
+                     ' ')
+        info_rows_counter += 1
+
+        for i, (sim_type, mults) in enumerate(self._feature_respin_mults.items()):
+            for j, (fs_count, mult) in enumerate(mults.items()):
+                printInfoRow(info_format(info_rows_counter),
+                             sim_type + ' ' + str(fs_count) + ' free spins',
+                             '(average win)',
+                             ' ',
+                             '{:,.2f}'.format(mult) + 'x',
+                             'bets')
+                info_rows_counter += 1
+
         self._current_row += 1
 
     def GetCentreStartCol(self, total_width: int, table_width: int, default_start_col: int = 1):

@@ -19,18 +19,10 @@ class NBNStatsCalculator(BasicStatsCalculator):
         self._scatter_counter_base_respin = stats.GetScatterCountBaseRespin()
 
         self._number_of_wilds_base = stats.GetWildCountBase()
-        self._number_of_wilds_free = stats.GetWildCountFree()
-        self._number_of_wilds_special = stats.GetWildCountSpecial()
-
         self._wild_positions_counter_base = stats.GetWildPositionsCounterBase()
-        self._wild_positions_counter_free = stats.GetWildPositionsCounterFree()
-        self._wild_positions_counter_special = stats.GetWildPositionsCounterSpecial()
 
         self._base_win_with_wilds = stats.GetBaseWinWithWilds()
         self._base_win_no_wilds = stats.GetBaseWinNoWilds()
-
-        self._one_regular_free_spin_win_df = pd.DataFrame
-        self._one_special_free_spin_win_df = pd.DataFrame
 
         self._scatter_counter_base_main_df = pd.DataFrame
         self._scatter_counter_base_merged_df = pd.DataFrame
@@ -39,17 +31,9 @@ class NBNStatsCalculator(BasicStatsCalculator):
 
         self._number_of_wilds_base_main_df = pd.DataFrame
         self._number_of_wilds_base_merged_df = pd.DataFrame
-        self._number_of_wilds_free_main_df = pd.DataFrame
-        self._number_of_wilds_free_merged_df = pd.DataFrame
-        self._number_of_wilds_special_main_df = pd.DataFrame
-        self._number_of_wilds_special_merged_df = pd.DataFrame
 
         self._wild_positions_counter_base_main_df = pd.DataFrame
         self._wild_positions_counter_base_merged_df = pd.DataFrame
-        self._wild_positions_counter_free_main_df = pd.DataFrame
-        self._wild_positions_counter_free_merged_df = pd.DataFrame
-        self._wild_positions_counter_special_main_df = pd.DataFrame
-        self._wild_positions_counter_special_merged_df = pd.DataFrame
 
         self._base_win_with_wild_df = pd.DataFrame
         self._base_win_no_wild_df = pd.DataFrame
@@ -57,7 +41,7 @@ class NBNStatsCalculator(BasicStatsCalculator):
     def CalcStats(self):
         super().CalcStats()
 
-        self._CalcOneFreeSpinWin_Distribution_DF()
+        # self._CalcOneFreeSpinWin_Distribution_DF()
         self._CalcScatterCounterDistribution_DF()
         self._CalcNumberOfWilds_DF()
         self._CalcWildPositions_DF()
@@ -91,16 +75,6 @@ class NBNStatsCalculator(BasicStatsCalculator):
                                                                                                                                  [3, 5], [6, 8],
                                                                                                                                  [9, 12], [13, 15]],
                                                                                                                                 self._total_spin_count)
-        self._number_of_wilds_free_main_df, self._number_of_wilds_free_merged_df = BasicStatsCalculator.CalcVectorVariant_DF(
-            self._number_of_wilds_free,
-            [[0, 0], [1, 2],
-             [3, 5], [6, 8],
-             [9, 12], [13, 15]],
-            self._total_spin_count)
-        self._number_of_wilds_special_main_df, self._number_of_wilds_special_merged_df = BasicStatsCalculator.CalcVectorVariant_DF(
-            self._number_of_wilds_special,
-            [[7, 9]],
-            self._total_spin_count)
 
     def _CalcWildPositions_DF(self):
         self._wild_positions_counter_base_main_df, self._wild_positions_counter_base_merged_df = BasicStatsCalculator.CalcVectorVariant_DF(self._wild_positions_counter_base,
@@ -108,18 +82,6 @@ class NBNStatsCalculator(BasicStatsCalculator):
                                                                                                                                             [6, 8], [9, 11],
                                                                                                                                             [12, 14]],
                                                                                                                                            self._total_spin_count)
-        self._wild_positions_counter_free_main_df, self._wild_positions_counter_free_merged_df = BasicStatsCalculator.CalcVectorVariant_DF(
-            self._wild_positions_counter_free,
-            [[0, 2], [3, 5],
-             [6, 8], [9, 11],
-             [12, 14]],
-            self._total_spin_count)
-        self._wild_positions_counter_special_main_df, self._wild_positions_counter_special_merged_df = BasicStatsCalculator.CalcVectorVariant_DF(
-            self._wild_positions_counter_special,
-            [[0, 2], [3, 5],
-             [6, 8], [9, 11],
-             [12, 14]],
-            self._total_spin_count)
 
     def _CalcBaseWinDistribution_DF(self):
         self._base_win_with_wild_df = BasicStatsCalculator.CalculateCommonSpinWinDF(self._base_win_with_wilds,
@@ -133,12 +95,6 @@ class NBNStatsCalculator(BasicStatsCalculator):
                                                                                   self._bet,
                                                                                   self._total_spin_count)
 
-    def GetOneFreeSpinRegularWin_DF(self):
-        return self._one_regular_free_spin_win_df
-
-    def GetOneFreeSpinSpecialWin_DF(self):
-        return self._one_special_free_spin_win_df
-
     def GetScatterCountBase_DFs(self):
         return self._scatter_counter_base_main_df, self._scatter_counter_base_merged_df
 
@@ -148,20 +104,8 @@ class NBNStatsCalculator(BasicStatsCalculator):
     def GetNumberOfWildsBase_DFs(self):
         return self._number_of_wilds_base_main_df, self._number_of_wilds_base_merged_df
 
-    def GetNumberOfWildsFree_DFs(self):
-        return self._number_of_wilds_free_main_df, self._number_of_wilds_free_merged_df
-
-    def GetNumberOfWildsSpecial_DFs(self):
-        return self._number_of_wilds_special_main_df, self._number_of_wilds_special_merged_df
-
     def GetWildPositionsCounterBase_DFs(self):
         return self._wild_positions_counter_base_main_df, self._wild_positions_counter_base_merged_df
-
-    def GetWildPositionsCounterFree_DFs(self):
-        return self._wild_positions_counter_free_main_df, self._wild_positions_counter_free_merged_df
-
-    def GetWildPositionsCounterSpecial_DFs(self):
-        return self._wild_positions_counter_special_main_df, self._wild_positions_counter_special_merged_df
 
     def GetBaseWinWithWilds_DF(self):
         return self._base_win_with_wild_df
@@ -178,20 +122,8 @@ class NBNStatsCalculator(BasicStatsCalculator):
     def GetWildCountBase_DFs(self):
         return self._number_of_wilds_base_main_df, self._number_of_wilds_base_merged_df
 
-    def GetWildCountFree_DFs(self):
-        return self._number_of_wilds_free_main_df, self._number_of_wilds_free_merged_df
-
-    def GetWildCountSpecial_DFs(self):
-        return self._number_of_wilds_special_main_df, self._number_of_wilds_special_merged_df
-
     def GetWildPositionCountBase_DFs(self):
         return self._wild_positions_counter_base_main_df, self._wild_positions_counter_base_merged_df
-
-    def GetWildPositionCountFree_DFs(self):
-        return self._wild_positions_counter_free_main_df, self._wild_positions_counter_free_merged_df
-
-    def GetWildPositionCountSpecial_DFs(self):
-        return self._wild_positions_counter_special_main_df, self._wild_positions_counter_special_merged_df
 
     def GetBaseWinNoWild_DF(self):
         return self._base_win_no_wild_df

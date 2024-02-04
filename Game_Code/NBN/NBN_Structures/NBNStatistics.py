@@ -19,17 +19,10 @@ class NBNStatistics(SLStatistics):
 
         self._scatter_counter_base = np.array  # index - scatter count in board; value - situations counter
         self._scatter_counter_base_respin = np.array  # index - scatter count in board; value - situations counter
+
         self._wild_counter_base = np.array
-        self._wild_counter_free = np.array
-        self._wild_counter_special = np.array
-
         self._wild_positions_counter_base = np.array
-        self._wild_positions_counter_free = np.array
-        self._wild_positions_counter_special = np.array
-
         self._wild_pattern_counter_base = np.array
-        self._wild_pattern_counter_free = np.array
-        self._wild_pattern_counter_special = np.array
 
         self._board_full_of_wilds_counter_base = -1
         self._board_full_of_wilds_counter_free = -1
@@ -40,19 +33,13 @@ class NBNStatistics(SLStatistics):
 
     def ReadStatistics(self, data: dict):
         super().ReadStatistics(data)
-        self._one_free_spin_regular_win = super()._ReadBasicMap(data['One Free Spin regular spin win'],
-                                                                key_name='win',
-                                                                val_name='counter')
-        self._one_free_spin_special_win = super()._ReadBasicMap(data['One Free Spin special spin win'],
-                                                                key_name='win',
-                                                                val_name='counter')
-        self._free_spins_total_section_win_without_feature_respin = super()._ReadBasicMap(data['Free Spins Total Section Win Without Feature Re-Spin'],
-                                                                                          key_name='win',
-                                                                                          val_name='counter')
-        self._free_spins_total_section_win_with_feature_respin = super()._ReadBasicMap(
-            data['Free Spins Total Section Win With Feature Re-Spin'],
-            key_name='win',
-            val_name='counter')
+        # self._one_free_spin_regular_win = super()._ReadBasicMap(data['One Free Spin regular spin win'],
+        #                                                         key_name='win',
+        #                                                         val_name='counter')
+        # self._one_free_spin_special_win = super()._ReadBasicMap(data['One Free Spin special spin win'],
+        #                                                         key_name='win',
+        #                                                         val_name='counter')
+
         self._scatter_counter_base = super()._ReadBasicVector(data['Scatter Counter Base'],
                                                               index_name='number_of_scatters',
                                                               val_name='counter')
@@ -62,32 +49,12 @@ class NBNStatistics(SLStatistics):
         self._wild_counter_base = super()._ReadBasicVector(data['Wild Counter Base'],
                                                            index_name='number_of_wilds',
                                                            val_name='counter')
-        self._wild_counter_free = super()._ReadBasicVector(data['Wild Counter Free'],
-                                                           index_name='number_of_wilds',
-                                                           val_name='counter')
-        self._wild_counter_special = super()._ReadBasicVector(data['Wild Counter Special'],
-                                                              index_name='number_of_wilds',
-                                                              val_name='counter')
-
         self._wild_positions_counter_base = super()._ReadBasicVector(data['Wild positions counter Base'],
                                                                      index_name='wild_position_index',
                                                                      val_name='counter')
-        self._wild_positions_counter_free = super()._ReadBasicVector(data['Wild positions counter Free'],
-                                                                     index_name='wild_position_index',
-                                                                     val_name='counter')
-        self._wild_positions_counter_special = super()._ReadBasicVector(data['Wild positions counter Special'],
-                                                                        index_name='wild_position_index',
-                                                                        val_name='counter')
-
         self._wild_pattern_counter_base = super()._ReadBasicVector(data['Wild Pattern Counter Base'],
                                                                    index_name='pattern_index',
                                                                    val_name='counter')
-        self._wild_pattern_counter_free = super()._ReadBasicVector(data['Wild Pattern Counter Free'],
-                                                                   index_name='pattern_index',
-                                                                   val_name='counter')
-        self._wild_pattern_counter_special = super()._ReadBasicVector(data['Wild Pattern Counter Special'],
-                                                                      index_name='pattern_index',
-                                                                      val_name='counter')
 
         self._board_full_of_wilds_counter_base = data['Board Full of Wilds Base']
         self._board_full_of_wilds_counter_free = data['Board Full of Wilds Free']
@@ -107,12 +74,6 @@ class NBNStatistics(SLStatistics):
     def GetOne_Special_FreeSpinWin(self):
         return self._one_free_spin_special_win
 
-    def GetFreeSpinsTotalSectionWin_WithoutRespin(self):
-        return self._free_spins_total_section_win_without_feature_respin
-
-    def GetFreeSpinsTotalSectionWin_WithRespin(self):
-        return self._free_spins_total_section_win_with_feature_respin
-
     def GetScatterCountBase(self):
         return self._scatter_counter_base
 
@@ -122,29 +83,11 @@ class NBNStatistics(SLStatistics):
     def GetWildCountBase(self):
         return self._wild_counter_base
 
-    def GetWildCountFree(self):
-        return self._wild_counter_free
-
-    def GetWildCountSpecial(self):
-        return self._wild_counter_special
-
     def GetWildPositionsCounterBase(self):
         return self._wild_positions_counter_base
 
-    def GetWildPositionsCounterFree(self):
-        return self._wild_positions_counter_free
-
-    def GetWildPositionsCounterSpecial(self):
-        return self._wild_positions_counter_special
-
     def GetWildPatternCounterBase(self):
         return self._wild_pattern_counter_base
-
-    def GetWildPatternCounterFree(self):
-        return self._wild_pattern_counter_free
-
-    def GetWildPatternCounterSpecial(self):
-        return self._wild_pattern_counter_special
 
     def GetBoardFullOfWildsCounterBase(self):
         return self._board_full_of_wilds_counter_base
